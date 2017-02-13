@@ -23,6 +23,7 @@
 "       http://amix.dk/vim/vimrc.txt
 "
 " Sections:
+"    -> Plugins
 "    -> General
 "    -> VIM user interface
 "    -> Colors and Fonts
@@ -39,6 +40,32 @@
 "
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
+set nocompatible              " be iMproved, required
+filetype off                  " required
+
+" set the runtime path to include Vundle and initialize
+set rtp+=~/.vim/bundle/Vundle.vim
+call vundle#begin()
+" alternatively, pass a path where Vundle should install plugins
+"call vundle#begin('~/some/path/here')
+
+" let Vundle manage Vundle, required
+Plugin 'VundleVim/Vundle.vim'
+
+" By Junjie Shen
+Plugin 'scrooloose/nerdtree'
+Plugin 'flazz/vim-colorschemes'
+Plugin 'octol/vim-cpp-enhanced-highlight'
+let g:cpp_class_scope_highlight = 1
+Plugin 'Valloric/YouCompleteMe'
+let g:ycm_global_ycm_extra_conf = "/home/junjies/.vim/bundle/YouCompleteMe/third_party/ycmd/cpp/ycm/.ycm_extra_conf.py"
+let g:ycm_enable_diagnostic_highlighting = 0
+" All of your Plugins must be added before the following line
+call vundle#end()            " required
+filetype plugin indent on    " required
+
+" NerdTree
+map <F2> :NERDTreeToggle<CR>
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => General
@@ -47,8 +74,10 @@
 set history=700
 
 " Enable filetype plugins
-filetype plugin on
-filetype indent on
+"filetype plugin on
+"filetype indent on
+
+set nu
 
 " Set to auto read when a file is changed from the outside
 set autoread
@@ -116,23 +145,20 @@ set novisualbell
 set t_vb=
 set tm=500
 
+" Show vertical line at 80 character limit
+highlight ColorColumn ctermbg=gray
+set colorcolumn=80
+
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => Colors and Fonts
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Enable syntax highlighting
-syntax enable
-
-colorscheme desert
+" syntax enable
 set background=dark
-
-" Set extra options when running in GUI mode
-if has("gui_running")
-    set guioptions-=T
-    set guioptions+=e
-    set t_Co=256
-    set guitablabel=%M\ %t
-endif
+"let g:solarized_termcolors=256
+"colorscheme solarized
+"colorscheme Monokai
 
 " Set utf8 as standard encoding and en_US as the standard language
 set encoding=utf8
@@ -222,16 +248,16 @@ map <leader>cd :cd %:p:h<cr>:pwd<cr>
 
 " Specify the behavior when switching between buffers 
 try
-  set switchbuf=useopen,usetab,newtab
-  set stal=2
+    set switchbuf=useopen,usetab,newtab
+    set stal=2
 catch
 endtry
 
 " Return to last edit position when opening files (You want this!)
 autocmd BufReadPost *
-     \ if line("'\"") > 0 && line("'\"") <= line("$") |
-     \   exe "normal! g`\"" |
-     \ endif
+            \ if line("'\"") > 0 && line("'\"") <= line("$") |
+            \   exe "normal! g`\"" |
+            \ endif
 " Remember info about open buffers on close
 set viminfo^=%
 
@@ -243,8 +269,18 @@ set viminfo^=%
 set laststatus=2
 
 " Format the status line
-set statusline=\ %{HasPaste()}%F%m%r%h\ %w\ \ CWD:\ %r%{getcwd()}%h\ \ \ Line:\ %l
-
+set statusline=\ %{HasPaste()}%t%m%r%h\ %w\ \ CWD:\ %{getcwd()}\ \ \ Line:\ %l/%L
+"set statusline=%t       "tail of the filename
+"set statusline+=[%{strlen(&fenc)?&fenc:'none'}, "file encoding
+"set statusline+=%{&ff}] "file format
+"set statusline+=%h      "help file flag
+"set statusline+=%m      "modified flag
+"set statusline+=%r      "read only flag
+"set statusline+=%y      "filetype
+"set statusline+=%=      "left/right separator
+"set statusline+=%c,     "cursor column
+"set statusline+=%l/%L   "cursor line/total lines
+"set statusline+=\ %P    "percent through file
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => Editing mappings
@@ -259,19 +295,29 @@ vmap <M-j> :m'>+<cr>`<my`>mzgv`yo`z
 vmap <M-k> :m'<-2<cr>`>my`<mzgv`yo`z
 
 if has("mac") || has("macunix")
-  nmap <D-j> <M-j>
-  nmap <D-k> <M-k>
-  vmap <D-j> <M-j>
-  vmap <D-k> <M-k>
+    nmap <D-j> <M-j>
+    nmap <D-k> <M-k>
+    vmap <D-j> <M-j>
+    vmap <D-k> <M-k>
 endif
+
+" Copy and Paste to system clipboard
+noremap ty "+y
+noremap tY "+Y
+noremap tp "+p
+noremap tP "+P
 
 " Delete trailing white space on save, useful for Python and CoffeeScript ;)
 func! DeleteTrailingWS()
-  exe "normal mz"
-  %s/\s\+$//ge
-  exe "normal `z"
+    exe "normal mz"
+    %s/\s\+$//ge
+    exe "normal `z"
 endfunc
 autocmd BufWrite *.py :call DeleteTrailingWS()
+autocmd BufWrite *.cc :call DeleteTrailingWS()
+autocmd BufWrite *.cpp :call DeleteTrailingWS()
+autocmd BufWrite *.c :call DeleteTrailingWS()
+autocmd BufWrite *.h :call DeleteTrailingWS()
 autocmd BufWrite *.coffee :call DeleteTrailingWS()
 
 
@@ -376,20 +422,20 @@ endfunction
 " Don't close window, when deleting a buffer
 command! Bclose call <SID>BufcloseCloseIt()
 function! <SID>BufcloseCloseIt()
-   let l:currentBufNum = bufnr("%")
-   let l:alternateBufNum = bufnr("#")
+    let l:currentBufNum = bufnr("%")
+    let l:alternateBufNum = bufnr("#")
 
-   if buflisted(l:alternateBufNum)
-     buffer #
-   else
-     bnext
-   endif
+    if buflisted(l:alternateBufNum)
+        buffer #
+    else
+        bnext
+    endif
 
-   if bufnr("%") == l:currentBufNum
-     new
-   endif
+    if bufnr("%") == l:currentBufNum
+        new
+    endif
 
-   if buflisted(l:currentBufNum)
-     execute("bdelete! ".l:currentBufNum)
-   endif
+    if buflisted(l:currentBufNum)
+        execute("bdelete! ".l:currentBufNum)
+    endif
 endfunction
