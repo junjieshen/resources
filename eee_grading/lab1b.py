@@ -14,30 +14,14 @@ parser.add_argument('-s', '--score', type=int,
 args = parser.parse_args()
 
 print "Now grading "+args.directory+", deadline is set at " + args.deadline + "!"
-ddltimelist = stringToTimeList("201702071155PM")
-subtimelist = EEETimeToTimeList("2017-02-06 5:31pm")
 
-os.chdir(args.directory)
-for f in glob.glob("*.csv"):
-        csv_in = f
-
+full_score = args.score
 prefix = args.directory
 if args.directory[-1] != "/":
     prefix += "/"
 
-num_lines = 0
-pgm_out = prefix+"out1.pgm"
-csv_out = prefix+"grades.csv"
-if os.path.exists(csv_out):
-    cancelled = raw_input("Do you want to delete the grades? Press enter (delete) or any other key (not delete):")
-    if not cancelled:
-        os.remove(csv_out)
-    else:
-        num_lines = sum(1 for line in open(csv_out))
-
-count = 0
-
-writer = csv.writer(open(csv_out, 'a'))
+for f in glob.glob(prefix+"*.csv"):
+        csv_in = f
 
 if args.lang == "c++":
     suffix = ".cpp"
@@ -49,9 +33,26 @@ else:
     print "Unsupported language."
     raise SystemExit
 
-full_score = args.score
+num_lines = 0
+pgm_out = prefix+"out1.pgm"
+csv_out = prefix+"grades.csv"
 
-comp_binary = "./binary"
+comp_binary = prefix+"binary"
+cmd_comp_no_src = CC+" -std=c++11 -pthread -o "+comp_binary+" "
+cmd_run = comp_binary+" "+prefix+"aniketsh_tc1.pgm "+prefix+"out1.pgm 4 32"
+cmd_open = "feh "+pgm_out
+
+if os.path.exists(csv_out):
+    cancelled = raw_input("Do you want to delete the grades? Press enter (delete) or any other key (not delete):")
+    if not cancelled:
+        os.remove(csv_out)
+    else:
+        num_lines = sum(1 for line in open(csv_out))
+
+count = 0
+
+writer = csv.writer(open(csv_out, 'a'))
+
 
 with open(csv_in, 'rb') as csvfile:
     submissions = csv.reader(csvfile)
@@ -80,6 +81,7 @@ with open(csv_in, 'rb') as csvfile:
             if file_name.endswith(suffix):
                 comp_src = prefix+"Files/"+file_name
                 comp_timelist = EEETimeToTimeList(eee_time)
+
         if not comp_src:
             grades = 0
             grade_comments += "No source file found; "
@@ -89,8 +91,12 @@ with open(csv_in, 'rb') as csvfile:
             writer.writerow(record)
             continue
 
+        if laterThan(comp_timelist, stringToTimeList(args.deadline)):
+            grades -= 20
+            grade_comments += "overdue (-20); "
+
         # Try to compile the file
-        run(CC+" -std=c++11 -pthread -o "+comp_binary+" "+comp_src, 10)
+        run(cmd_comp_no_src+comp_src, 10)
 
         # Check if binary got compiled
         if not os.path.exists(comp_binary):
@@ -102,7 +108,7 @@ with open(csv_in, 'rb') as csvfile:
             continue
 
         # Execute the binary
-        run(comp_binary+" ./aniketsh_tc1.pgm ./out1.pgm 4 32", 30)
+        run(cmd_run, 30)
 
         # Check if output image exist
         if not os.path.exists(pgm_out):
@@ -114,7 +120,7 @@ with open(csv_in, 'rb') as csvfile:
             continue
 
         # Open output image file
-        subprocess.Popen("feh "+pgm_out, shell=True)
+        subprocess.Popen(cmd_open, shell=True)
 
         failure_code = raw_input("Please check the results, now choose pass (enter), minor error (1), or not pass (any other key):")
         if failure_code:
