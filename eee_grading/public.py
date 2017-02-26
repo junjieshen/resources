@@ -10,6 +10,28 @@ import csv
 import re
 from threading import Timer
 
+def runAndMatch(cmd, timeout_sec, match):
+    proc = subprocess.Popen(shlex.split(cmd), stdout = subprocess.PIPE, stderr = subprocess.PIPE)
+
+    kill_proc = lambda p: p.kill()
+    timer = Timer(timeout_sec, kill_proc, [
+        proc])
+
+    try:
+        timer.start()
+        (stdout, stderr) = proc.communicate()
+    finally:
+        output = stdout[-20000:]
+        print output
+        print stderr
+        timer.cancel()
+        if match:
+            if match in output:
+                return True
+            else:
+                return False
+        return True
+
 def run(cmd, timeout_sec):
     proc = subprocess.Popen(shlex.split(cmd), stdout = subprocess.PIPE, stderr = subprocess.PIPE)
 

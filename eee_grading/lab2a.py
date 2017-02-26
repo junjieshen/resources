@@ -29,7 +29,7 @@ pgm_out = prefix+"out1.pgm"
 csv_out = prefix+"grades.csv"
 
 comp_binary = prefix+"binary"
-cmd_comp_no_src = CC+" -o "+comp_binary+" "
+cmd_comp_no_src = CC+" -std=c++11 -o "+comp_binary+" "
 cmd_run = comp_binary+" "+prefix+"aniketsh_tc1.pgm "+prefix+"out1.pgm"
 cmd_open = "feh "+pgm_out
 

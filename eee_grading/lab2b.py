@@ -1,6 +1,6 @@
-#!/usr/bin/env python
 from public import *
 
+# usr/bin/env python
 parser = argparse.ArgumentParser(description='Inputs to grade lab assignments.')
 parser.add_argument('-d', '--directory', type=str,
         help='The directory to the assignment')
@@ -18,7 +18,7 @@ prefix = args.directory
 if args.directory[-1] != "/":
     prefix += "/"
 
-for f in glob.glob(prefix+"*.csv"):
+for f in glob.glob(prefix+"Lab2-PartB-AssignmentSubmission-manifest.csv"):
         csv_in = f
 
 suffix = ".cpp"
@@ -42,7 +42,6 @@ if os.path.exists(csv_out):
 count = 0
 
 writer = csv.writer(open(csv_out, 'a'))
-
 
 with open(csv_in, 'rb') as csvfile:
     submissions = csv.reader(csvfile)
@@ -72,7 +71,7 @@ with open(csv_in, 'rb') as csvfile:
             if file_name.endswith(suffix):
                 comp_src = prefix+"Files/"+file_name
                 comp_timelist = EEETimeToTimeList(eee_time)
-            if file_name.endswith("Timing.phf"):
+            if file_name.endswith("Timing.pdf"):
                 report = prefix+"Files/"+file_name
 
         if not comp_src:
@@ -113,44 +112,45 @@ with open(csv_in, 'rb') as csvfile:
         # Execute the binary
         print
         print "---------> B1"
-        run(cmd_run1, 30)
+        res1 = runAndMatch(cmd_run1, 30, "61")
         print
         print "---------> B2"
-        run(cmd_run2, 30)
+        res2 = runAndMatch(cmd_run2, 30, "61")
 
-        failure_code = raw_input("Please check the results, now choose pass (enter), minor error (1), or not pass (any other key):")
-        if failure_code:
-            if failure_code == "1":
-                grades -= 5
-                grade_comments += "b1 incorrect result; "
-            elif failure_code == "2":
-                grades -= 5
-                grade_comments += "b2 incorrect result; "
-            elif failure_code == "3":
+        if (not res1) or (not res2):
+            failure_code = raw_input("Please check the results, now choose pass (enter), minor error (1), or not pass (any other key):")
+            if failure_code:
+                if failure_code == "1":
+                    grades -= 5
+                    grade_comments += "b1 incorrect result; "
+                elif failure_code == "2":
+                    grades -= 5
+                    grade_comments += "b2 incorrect result; "
+                elif failure_code == "3":
+                    grades -= 10
+                    grade_comments += "incorrect result; "
+                elif failure_code == "4":
+                    grades -= 10
+                    grade_comments += "b1 runtime failure; "
+                elif failure_code == "5":
+                    grades -= 10
+                    grade_comments += "b2 runtime failure; "
+                elif failure_code == "6":
+                    grades -= 20
+                    grade_comments += "b1 and b2 runtime failure; "
+                else:
+                    grades -= 20
+                    grade_comments += failure_code+"; "
+            if not report:
                 grades -= 10
-                grade_comments += "incorrect result; "
-            elif failure_code == "4":
-                grades -= 10
-                grade_comments += "b1 runtime failure; "
-            elif failure_code == "5":
-                grades -= 10
-                grade_comments += "b2 runtime failure; "
-            elif failure_code == "6":
-                grades -= 20
-                grade_comments += "b1 and b2 runtime failure; "
-            else:
-                grades -= 20
-                grade_comments += failure_code+"; "
-        if not report:
-            grades -= 10
-            grade_comments += "timing report not found; "
-        if not comp_src.endswith("ImplementationB"+suffix):
-            grades -= 1
-            grade_comments += "source file name not as specified (-1); "
+                grade_comments += "timing report not found; "
+            if not comp_src.endswith("ImplementationB"+suffix):
+                grades -= 1
+                grade_comments += "source file name not as specified (-1); "
 
         record[2] = str(grades)
         record.append(grade_comments)
         writer.writerow(record)
         print record
-        raise SystemExit
+#        raise SystemExit
 
