@@ -9,10 +9,6 @@ import time
 import csv
 import re
 from threading import Timer
-import numpy as np
-import matplotlib.pyplot as plt
-plt.rcdefaults()
-from matplotlib.font_manager import FontProperties
 
 def run(cmd, timeout_sec):
     proc = subprocess.Popen(shlex.split(cmd), stdout = subprocess.PIPE, stderr = subprocess.PIPE)
