@@ -30,7 +30,7 @@ csv_out = prefix+"grades.csv"
 
 comp_binary = prefix+"binary"
 cmd_comp_no_src = CC+" -std=c++11 -o "+comp_binary+" "
-cmd_run = comp_binary+" "+prefix+"aniketsh_tc1.pgm "+prefix+"out1.pgm"
+cmd_run = "mpirun -np 4 " + comp_binary+" "+prefix+"aniketsh_tc1.pgm "+prefix+"out1.pgm"
 cmd_open = "feh "+pgm_out
 
 if os.path.exists(csv_out):
