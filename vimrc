@@ -54,12 +54,12 @@ Plugin 'VundleVim/Vundle.vim'
 
 " By Junjie Shen
 Plugin 'scrooloose/nerdtree'
-Plugin 'flazz/vim-colorschemes'
+Plugin 'Lokaltog/vim-distinguished'
 Plugin 'octol/vim-cpp-enhanced-highlight'
 let g:cpp_class_scope_highlight = 1
-Plugin 'Valloric/YouCompleteMe'
-let g:ycm_global_ycm_extra_conf = "/home/junjies/.vim/bundle/YouCompleteMe/third_party/ycmd/cpp/ycm/.ycm_extra_conf.py"
-let g:ycm_enable_diagnostic_highlighting = 0
+" Plugin 'Valloric/YouCompleteMe'
+" let g:ycm_global_ycm_extra_conf = "/home/junjies/.vim/bundle/YouCompleteMe/third_party/ycmd/cpp/ycm/.ycm_extra_conf.py"
+" let g:ycm_enable_diagnostic_highlighting = 0
 " All of your Plugins must be added before the following line
 call vundle#end()            " required
 filetype plugin indent on    " required
@@ -146,19 +146,20 @@ set t_vb=
 set tm=500
 
 " Show vertical line at 80 character limit
-highlight ColorColumn ctermbg=gray
-set colorcolumn=80
+" highlight ColorColumn ctermbg=gray
+" set colorcolumn=80
 
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => Colors and Fonts
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Enable syntax highlighting
-" syntax enable
+syntax enable
 set background=dark
 "let g:solarized_termcolors=256
 "colorscheme solarized
 "colorscheme Monokai
+colorscheme distinguished
 
 " Set utf8 as standard encoding and en_US as the standard language
 set encoding=utf8
