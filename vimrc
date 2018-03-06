@@ -56,6 +56,7 @@ Plugin 'VundleVim/Vundle.vim'
 Plugin 'scrooloose/nerdtree'
 Plugin 'Lokaltog/vim-distinguished'
 Plugin 'octol/vim-cpp-enhanced-highlight'
+Plugin 'altercation/vim-colors-solarized'
 let g:cpp_class_scope_highlight = 1
 " Plugin 'Valloric/YouCompleteMe'
 " let g:ycm_global_ycm_extra_conf = "/home/junjies/.vim/bundle/YouCompleteMe/third_party/ycmd/cpp/ycm/.ycm_extra_conf.py"
@@ -157,9 +158,12 @@ set tm=500
 syntax enable
 set background=dark
 "let g:solarized_termcolors=256
-"colorscheme solarized
+let g:solarized_termtrans = 1
+let g:solarized_visibility = "high"
+"let g:solarized_contrast = "high"
+colorscheme solarized
 "colorscheme Monokai
-colorscheme distinguished
+"colorscheme distinguished
 
 " Set utf8 as standard encoding and en_US as the standard language
 set encoding=utf8
