@@ -1,0 +1,12 @@
+# This is Git's per-user configuration file.
+[user]
+	name = Junjie Shen
+	email = junjies1@uci.edu
+[core]
+	editor = vim
+[alias]
+  co = commit
+  st = status -sb
+  br = branch -av
+  aa = add -A
+  gr = grep -Ii
