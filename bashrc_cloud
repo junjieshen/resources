@@ -1,0 +1,19 @@
+# The bashrc script for Emulab where the home folder is volatile
+
+export PATH=/sysarch/tools/bin:$PATH
+export PATH=/sysarch/tools/llvm-4.0/build/bin:$PATH
+export CPATH=/sysarch/tools/include:$CPATH
+export LIBRARY_PATH=/sysarch/tools/lib:$LIBRARY_PATH
+export LD_LIBRARY_PATH=/sysarch/tools/lib:$LD_LIBRARY_PATH
+
+# Change location of vimrc file
+export VIMINIT='source $MYVIMRC'
+export MYVIMRC='/sysarch/.vimrc'
+
+# Change location of gitconfig file
+export GIT_CONFIG='/sysarch/.gitconfig'
+cp $GIT_CONFIG ~/.gitconfig
+
+# Install the prerequisites for building LLVM
+alias llvminit='sudo apt update; sudo apt -y install zlib1g-dev'
+
