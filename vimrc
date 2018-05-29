@@ -40,14 +40,17 @@
 "
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
+let $VIMHOME_PATH = '/sysarch/.vim'
+let &runtimepath.=',$VIMHOME_PATH'
+
 set nocompatible              " be iMproved, required
 filetype off                  " required
 
 " set the runtime path to include Vundle and initialize
-set rtp+=~/.vim/bundle/Vundle.vim
-call vundle#begin()
+set rtp+=/sysarch/.vim/bundle/Vundle.vim
+" call vundle#begin()
 " alternatively, pass a path where Vundle should install plugins
-"call vundle#begin('~/some/path/here')
+call vundle#begin('/sysarch/.vim/bundle')
 
 " let Vundle manage Vundle, required
 Plugin 'VundleVim/Vundle.vim'
@@ -161,9 +164,9 @@ set background=dark
 let g:solarized_termtrans = 1
 let g:solarized_visibility = "high"
 "let g:solarized_contrast = "high"
-colorscheme solarized
+"colorscheme solarized
 "colorscheme Monokai
-"colorscheme distinguished
+colorscheme distinguished
 
 " Set utf8 as standard encoding and en_US as the standard language
 set encoding=utf8
@@ -191,8 +194,8 @@ set expandtab
 set smarttab
 
 " 1 tab == 4 spaces
-set shiftwidth=4
-set tabstop=4
+set shiftwidth=2
+set tabstop=2
 
 " Linebreak on 500 characters
 set lbr
