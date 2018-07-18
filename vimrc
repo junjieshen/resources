@@ -60,6 +60,9 @@ Plugin 'scrooloose/nerdtree'
 Plugin 'Lokaltog/vim-distinguished'
 Plugin 'octol/vim-cpp-enhanced-highlight'
 Plugin 'altercation/vim-colors-solarized'
+Plugin 'nachumk/systemverilog.vim'
+Plugin 'derekwyatt/vim-scala'
+Plugin 'azidar/firrtl-syntax'
 let g:cpp_class_scope_highlight = 1
 " Plugin 'Valloric/YouCompleteMe'
 " let g:ycm_global_ycm_extra_conf = "/home/junjies/.vim/bundle/YouCompleteMe/third_party/ycmd/cpp/ycm/.ycm_extra_conf.py"
@@ -327,6 +330,14 @@ autocmd BufWrite *.cpp :call DeleteTrailingWS()
 autocmd BufWrite *.c :call DeleteTrailingWS()
 autocmd BufWrite *.h :call DeleteTrailingWS()
 autocmd BufWrite *.coffee :call DeleteTrailingWS()
+autocmd BufWrite *.qsf :call DeleteTrailingWS()
+autocmd BufWrite *.v :call DeleteTrailingWS()
+autocmd BufWrite *.sv :call DeleteTrailingWS()
+autocmd BufWrite *.scala :call DeleteTrailingWS()
+autocmd BufWrite *.fir :call DeleteTrailingWS()
+autocmd BufWrite *.sbt :call DeleteTrailingWS()
+autocmd BufWrite *.tex :call DeleteTrailingWS()
+autocmd BufWrite *.md :call DeleteTrailingWS()
 
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
