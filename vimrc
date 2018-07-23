@@ -97,6 +97,8 @@ let g:mapleader = ","
 " Fast saving
 nmap <leader>w :w!<cr>
 
+" CTags: look for ctags file from current directory to the root folder
+set tags=./tags;/
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => VIM user interface
