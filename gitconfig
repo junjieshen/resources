@@ -10,3 +10,5 @@
   br = branch -av
   aa = add -A
   gr = grep -Ii
+[push]
+	default = simple
