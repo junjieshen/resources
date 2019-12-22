@@ -61,9 +61,6 @@ Plugin 'scrooloose/nerdtree'
 Plugin 'Lokaltog/vim-distinguished'
 Plugin 'octol/vim-cpp-enhanced-highlight'
 Plugin 'altercation/vim-colors-solarized'
-Plugin 'nachumk/systemverilog.vim'
-Plugin 'derekwyatt/vim-scala'
-Plugin 'azidar/firrtl-syntax'
 let g:cpp_class_scope_highlight = 1
 " Plugin 'Valloric/YouCompleteMe'
 " let g:ycm_global_ycm_extra_conf = "/home/junjies/.vim/bundle/YouCompleteMe/third_party/ycmd/cpp/ycm/.ycm_extra_conf.py"
@@ -200,8 +197,8 @@ set expandtab
 set smarttab
 
 " 1 tab == 4 spaces
-set shiftwidth=2
-set tabstop=2
+set shiftwidth=4
+set tabstop=4
 
 " Linebreak on 500 characters
 set lbr
