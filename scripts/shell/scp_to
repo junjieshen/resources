@@ -1,0 +1,17 @@
+#!/bin/bash
+
+my_scp()
+{
+  scp -r ${1} ${2}@${3}:${4}
+}
+
+declare -A servers=(
+["server1"]="user1 hostname1"
+["server2"]="user2 hostname2"
+)
+
+user_host=(${servers[$1]})
+user=${user_host[0]}
+host=${user_host[1]}
+
+my_scp $2 ${user} ${host} $3
